@@ -18,8 +18,6 @@ class MailmanServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('tck/mailman');
-
 		$this->commands('TCK\Mailman\Console\MailmanTestCommand');
 
 	}
