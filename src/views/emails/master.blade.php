@@ -472,7 +472,7 @@ a, a:visited {
 							<table border="0" cellpadding="30" cellspacing="0" height="100%" width="100%">
 								<tr>
 									<td align="center">
-										<img src="http://placehold.it/200/50"/>
+										<img src="http://placehold.it/225x50"/>
 									</td>
 								</tr>
 							</table>
