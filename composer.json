@@ -1,0 +1,20 @@
+{
+    "name": "portal/mailman",
+    "description": "",
+    "authors": [
+        {
+            "name": "The Creative Kind",
+            "email": "ben@thecreativekind.co.uk"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "~5.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "TCK\\Mailman\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
