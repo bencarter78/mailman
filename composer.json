@@ -1,6 +1,7 @@
 {
     "name": "tck/mailman",
-    "description": "",
+    "description": "Mail wrapper for Laravel",
+    "license": "MIT",
     "authors": [
         {
             "name": "The Creative Kind",
@@ -16,5 +17,5 @@
             "TCK\\Mailman\\": "src/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }
