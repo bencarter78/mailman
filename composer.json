@@ -1,6 +1,6 @@
 {
     "name": "tck/mailman",
-    "description": "Mail wrapper for Laravel",
+    "description": "Mail wrapper for Laravel 4/5",
     "license": "MIT",
     "authors": [
         {
