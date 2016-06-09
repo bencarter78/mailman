@@ -21,7 +21,6 @@ abstract class Mailman
     /**
      * Sends Email
      *
-     * @deprecated Uses send method now
      * @param    int    $user
      * @param    string $view
      * @param    string $subject
@@ -29,18 +28,6 @@ abstract class Mailman
      * @return    bool
      */
     public function sendTo($user, $subject, $view, $data = [])
-    {
-        $this->send($user, $subject, $view, $data);
-    }
-
-    /**
-     * @param       $user
-     * @param       $subject
-     * @param       $view
-     * @param array $data
-     * @return string
-     */
-    public function send($user, $subject, $view, $data = [])
     {
         try {
             $data['user'] = $user;
