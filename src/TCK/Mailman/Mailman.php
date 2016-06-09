@@ -1,7 +1,6 @@
 <?php
 namespace TCK\Mailman;
 
-use Config, Mail;
 use Illuminate\Contracts\Mail\Mailer;
 
 abstract class Mailman
@@ -22,6 +21,7 @@ abstract class Mailman
     /**
      * Sends Email
      *
+     * @deprecated Uses send method now
      * @param    int    $user
      * @param    string $view
      * @param    string $subject
@@ -30,19 +30,32 @@ abstract class Mailman
      */
     public function sendTo($user, $subject, $view, $data = [])
     {
-        $recipient = is_object($user) ? $user->email : $user;
+        $this->send($user, $subject, $view, $data);
+    }
 
-        $data['user'] = $user;
-
+    /**
+     * @param       $user
+     * @param       $subject
+     * @param       $view
+     * @param array $data
+     * @return string
+     */
+    public function send($user, $subject, $view, $data = [])
+    {
         try {
-            // Queue it up and send it!
-            $this->mailer->send($view, $data, function ($m) use ($recipient, $subject, $data) {
-                $this->overwriteFrom($m, $data);
-                $this->addAttachment($m, $data);
-                $this->setCC($m, $data);
-                $this->setBC($m, $data);
+            $data['user'] = $user;
 
-                return $m->to($recipient)->subject($subject);
+            $this->mailer->send($view, $data, function ($m) use (
+                $subject,
+                $data
+            ) {
+                $this->from($m, $data);
+                $this->attach($m, $data);
+                $this->cc($m, $data);
+                $this->bcc($m, $data);
+
+                return $m->to($this->recipient($data['user']))
+                         ->subject($subject);
             });
         } catch (Exception $e) {
             return $e->getMessage();
@@ -50,13 +63,22 @@ abstract class Mailman
     }
 
     /**
+     * @param $data
+     * @return mixed
+     */
+    public function recipient($data)
+    {
+        return is_object($data) ? $data->email : $data;
+    }
+
+    /**
      * @param $m
      * @param $data
      */
-    function overwriteFrom($m, $data)
+    function from($m, $data)
     {
-        if (isset( $data['overwriteFrom'] )) {
-            $m->from($data['email'], $this->getFromName($data));
+        if (isset($data['overwriteFrom'])) {
+            $m->from($data['email'], $this->name($data));
         }
     }
 
@@ -66,13 +88,13 @@ abstract class Mailman
      * @param null $surname
      * @return string
      */
-    public function getFromName($data, $fname = null, $surname = null)
+    public function name($data, $fname = null, $surname = null)
     {
-        if (isset( $data['first_name'] )) {
+        if (isset($data['first_name'])) {
             $fname = $data['first_name'] . ' ';
         }
 
-        if (isset( $data['surname'] )) {
+        if (isset($data['surname'])) {
             $surname = $data['surname'];
         }
 
@@ -82,10 +104,11 @@ abstract class Mailman
     /**
      * @param $m
      * @param $data
+     * @return mixed
      */
-    function addAttachment($m, $data)
+    function attach($m, $data)
     {
-        if (isset( $data['attachment'] )) {
+        if (isset($data['attachment'])) {
             return $m->attach($data['attachment'], ['mime' => 'application/pdf']);
         }
     }
@@ -95,9 +118,9 @@ abstract class Mailman
      * @param $data
      * @return mixed
      */
-    public function setCC($m, $data)
+    public function cc($m, $data)
     {
-        if (isset( $data['cc'] )) {
+        if (isset($data['cc'])) {
             $m->cc($data['cc']);
 
             return $m;
@@ -109,10 +132,10 @@ abstract class Mailman
      * @param $data
      * @return mixed
      */
-    public function setBC($m, $data)
+    public function bcc($m, $data)
     {
-        if (isset( $data['bc'] )) {
-            $m->cc($data['bc']);
+        if (isset($data['bcc'])) {
+            $m->bcc($data['bcc']);
 
             return $m;
         }

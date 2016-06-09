@@ -1,7 +1,7 @@
 <?php namespace TCK\Mailman\Console;
 
 use Illuminate\Console\Command;
-use TCK\Mailman\Mailers\TestMailer;
+use TCK\Mailman\Mailers\Mailer;
 
 class MailmanTestCommand extends Command {
 
@@ -30,7 +30,7 @@ class MailmanTestCommand extends Command {
 	 * @param TestMailer|SurveyMailer $mailer
 	 * @return MailmanTestCommand
 	 */
-	public function __construct( TestMailer $mailer )
+	public function __construct( Mailer $mailer )
 	{
 		parent::__construct();
 		$this->mailer = $mailer;

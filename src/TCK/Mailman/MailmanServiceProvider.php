@@ -18,8 +18,8 @@ class MailmanServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->commands('TCK\Mailman\Console\MailmanTestCommand');
-
+		$this->commands('TCK\Mailman\Console\Sender');
+		$this->loadViewsFrom(__DIR__.'/views', 'courier');
 	}
 
 	/**

@@ -2,7 +2,7 @@
 
 use TCK\Mailman\Mailman;
 
-class TestMailer extends Mailman {
+class Mailer extends Mailman {
 
 	/**
 	 * @param        $user
@@ -10,7 +10,7 @@ class TestMailer extends Mailman {
 	 * @param array  $data
 	 * @return bool
 	 */
-	public function sendTest( $user, $subject = 'Test Message', $data = [ ] )
+	public function send( $user, $subject = 'Test Message', $data = [ ] )
 	{
 		$view = 'mailman::emails.test';
 
