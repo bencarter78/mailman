@@ -53,6 +53,7 @@ abstract class Mailman
                 $this->attach($m, $data);
                 $this->cc($m, $data);
                 $this->bcc($m, $data);
+                $this->addTextHeaders($m, $data);
 
                 return $m->to($this->recipient($data['user']))
                          ->subject($subject);
@@ -141,5 +142,20 @@ abstract class Mailman
         }
     }
 
+    /**
+     * @param $message
+     * @param $data
+     * @return mixed
+     */
+    public function addTextHeaders($message, $data)
+    {
+        if (isset($data['headers'])) {
+            $headers = $message->getHeaders();
+            foreach ($data['headers'] as $key => $value) {
+                $headers->addTextHeader($key, $value);
+            }
+        }
 
+        return $message;
+    }
 }
