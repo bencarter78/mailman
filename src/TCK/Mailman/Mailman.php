@@ -66,7 +66,11 @@ abstract class Mailman
     function from($m, $data)
     {
         if (isset($data['overwriteFrom'])) {
-            $m->from($data['email'], $this->name($data));
+            $m->from($data['overwriteFrom'], $this->name($data));
+        }
+
+        if (isset($data['from'])) {
+            $m->from($data['from'], $this->name($data));
         }
     }
 
